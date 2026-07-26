@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/category_chips.dart';
 import '../../providers/news_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/article_card.dart';
@@ -100,6 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const CategoryChips(),
+
+                  const SizedBox(height: 10),
                   // Breaking News
                   if (provider.articles.isNotEmpty)
                     BreakingNewsCard(article: provider.articles.first),
