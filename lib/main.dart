@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/news_provider.dart';
+import 'screens/home/home_screen.dart';
 
 void main() {
   runApp(const NewsReaderApp());
@@ -9,17 +13,16 @@ class NewsReaderApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'News Reader',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('News Reader'), centerTitle: true),
-        body: const Center(
-          child: Text(
-            'Welcome to News Reader App',
-            style: TextStyle(fontSize: 22),
-          ),
+    return ChangeNotifierProvider(
+      create: (_) => NewsProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'News Reader',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
         ),
+        home: const HomeScreen(),
       ),
     );
   }
