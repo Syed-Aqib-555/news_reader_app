@@ -127,6 +127,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       return ArticleCard(article: provider.articles[index]);
                     },
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          provider.loadMore();
+                        },
+                        child: const Text("Load More"),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -9,10 +9,11 @@ class NewsService {
   Future<List<Article>> fetchTopHeadlines({
     String category = 'general',
     String country = 'us',
+    int page = 1,
   }) async {
     final response = await http.get(
       Uri.parse(
-        '$baseUrl/top-headlines?country=$country&category=$category&apiKey=$apiKey',
+        '$baseUrl/top-headlines?country=$country&category=$category&page=$page&pageSize=20&apiKey=$apiKey',
       ),
     );
 

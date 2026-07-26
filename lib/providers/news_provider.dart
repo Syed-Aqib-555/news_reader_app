@@ -10,6 +10,10 @@ class NewsProvider extends ChangeNotifier {
   bool _isLoading = false;
   String _error = '';
 
+  int _page = 1;
+
+  int get page => _page;
+
   List<Article> get articles => _articles;
   bool get isLoading => _isLoading;
   String get error => _error;
@@ -51,6 +55,27 @@ class NewsProvider extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  Future<void> loadMore({
+    String category = 'general',
+    String country = 'us',
+  }) async {
+    _page++;
+
+    try {
+      final moreArticles = await _service.fetchTopHeadlines(
+        category: category,
+        country: country,
+        page: _page,
+      );
+
+      _articles.addAll(moreArticles);
+      notifyListeners();
+    } catch (e) {
+      _error = e.toString();
+      notifyListeners();
+    }
   }
 
   Future<void> search(String query) async {
