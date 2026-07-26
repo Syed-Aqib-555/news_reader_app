@@ -30,6 +30,16 @@ class ArticleDetailScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 250,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: double.infinity,
+                    height: 250,
+                    color: Colors.grey.shade300,
+                    child: const Center(
+                      child: Icon(Icons.image_not_supported, size: 70),
+                    ),
+                  );
+                },
               ),
 
             Padding(

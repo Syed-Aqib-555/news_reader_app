@@ -32,6 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
 
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: NewsSearchDelegate());
+            },
+          ),
+
           PopupMenuButton<String>(
             onSelected: (value) {
               Provider.of<NewsProvider>(
@@ -41,11 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             itemBuilder: (context) => const [
               PopupMenuItem(value: "general", child: Text("General")),
-              PopupMenuItem(value: "business", child: Text("Business")),
+
               PopupMenuItem(value: "technology", child: Text("Technology")),
+
+              PopupMenuItem(value: "business", child: Text("Business")),
+
               PopupMenuItem(value: "sports", child: Text("Sports")),
+
               PopupMenuItem(value: "health", child: Text("Health")),
-              PopupMenuItem(value: "science", child: Text("Science")),
             ],
           ),
         ],
@@ -61,11 +71,17 @@ class _HomeScreenState extends State<HomeScreen> {
             return Center(child: Text(provider.error));
           }
 
-          return ListView.builder(
-            itemCount: provider.articles.length,
-            itemBuilder: (context, index) {
-              return ArticleCard(article: provider.articles[index]);
+          return RefreshIndicator(
+            onRefresh: () async {
+              await provider.fetchNews();
             },
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: provider.articles.length,
+              itemBuilder: (context, index) {
+                return ArticleCard(article: provider.articles[index]);
+              },
+            ),
           );
         },
       ),
