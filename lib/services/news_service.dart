@@ -5,9 +5,12 @@ import '../models/article.dart';
 import '../utils/constants.dart';
 
 class NewsService {
-  Future<List<Article>> fetchTopHeadlines() async {
+  // Replace this method
+  Future<List<Article>> fetchTopHeadlines({String category = 'general'}) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/top-headlines?country=us&apiKey=$apiKey'),
+      Uri.parse(
+        '$baseUrl/top-headlines?country=us&category=$category&apiKey=$apiKey',
+      ),
     );
 
     if (response.statusCode == 200) {
@@ -21,6 +24,7 @@ class NewsService {
     throw Exception('Failed to load news');
   }
 
+  // Keep this method as it is
   Future<List<Article>> searchNews(String query) async {
     final response = await http.get(
       Uri.parse('$baseUrl/everything?q=$query&apiKey=$apiKey'),

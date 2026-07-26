@@ -32,11 +32,21 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
 
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: NewsSearchDelegate());
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              Provider.of<NewsProvider>(
+                context,
+                listen: false,
+              ).fetchNews(category: value);
             },
+            itemBuilder: (context) => const [
+              PopupMenuItem(value: "general", child: Text("General")),
+              PopupMenuItem(value: "business", child: Text("Business")),
+              PopupMenuItem(value: "technology", child: Text("Technology")),
+              PopupMenuItem(value: "sports", child: Text("Sports")),
+              PopupMenuItem(value: "health", child: Text("Health")),
+              PopupMenuItem(value: "science", child: Text("Science")),
+            ],
           ),
         ],
       ),
