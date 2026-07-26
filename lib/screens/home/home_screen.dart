@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/news_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/article_card.dart';
+import '../../widgets/breaking_news_card.dart';
 import 'news_search_delegate.dart';
 import '../settings/settings_screen.dart';
 
@@ -94,12 +95,36 @@ class _HomeScreenState extends State<HomeScreen> {
             onRefresh: () async {
               await provider.fetchNews();
             },
-            child: ListView.builder(
+            child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: provider.articles.length,
-              itemBuilder: (context, index) {
-                return ArticleCard(article: provider.articles[index]);
-              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Breaking News
+                  if (provider.articles.isNotEmpty)
+                    BreakingNewsCard(article: provider.articles.first),
+
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Text(
+                      "Latest News",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: provider.articles.length,
+                    itemBuilder: (context, index) {
+                      return ArticleCard(article: provider.articles[index]);
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         },

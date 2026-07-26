@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'screens/navigation/main_navigation.dart';
 import 'providers/news_provider.dart';
 import 'providers/theme_provider.dart';
 import 'screens/home/home_screen.dart';
@@ -37,7 +37,7 @@ class NewsReaderApp extends StatelessWidget {
 
             themeMode: themeProvider.themeMode,
 
-            home: const HomeScreen(),
+            home: const MainNavigation(),
           );
         },
       ),
