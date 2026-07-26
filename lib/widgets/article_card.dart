@@ -90,13 +90,28 @@ class ArticleCard extends StatelessWidget {
             ),
 
             Padding(
-              padding: const EdgeInsets.all(12),
-              child: Text(
-                article.source,
-                style: const TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                    radius: 14,
+                    child: Icon(Icons.public, size: 16),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  Expanded(
+                    child: Text(
+                      article.source,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+
+                  Text(
+                    article.publishedAt,
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                  ),
+                ],
               ),
             ),
           ],
