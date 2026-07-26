@@ -1,41 +1,25 @@
 name: news_reader_app
-description: "Flutter News Reader App"
+description: "A Flutter News Reader App"
 publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.12.0
+  sdk: ">=3.12.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-
-  # Networking
   http: ^1.5.0
-
-  # State Management
   provider: ^6.1.5
-
-  # Local Storage
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-
-  # File Path
   path_provider: ^2.1.5
-
-  # Images
   cached_network_image: ^3.4.1
-
-  # Date Formatting
   intl: ^0.20.2
-
-  # Open URL
   url_launcher: ^6.3.2
-
-  # Share
   share_plus: ^12.0.0
 
 dev_dependencies:
