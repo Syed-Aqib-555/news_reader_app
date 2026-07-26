@@ -14,6 +14,24 @@ class NewsProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String get error => _error;
 
+  final List<Article> _bookmarks = [];
+
+  List<Article> get bookmarks => _bookmarks;
+
+  bool isBookmarked(Article article) {
+    return _bookmarks.any((a) => a.articleUrl == article.articleUrl);
+  }
+
+  void toggleBookmark(Article article) {
+    if (isBookmarked(article)) {
+      _bookmarks.removeWhere((a) => a.articleUrl == article.articleUrl);
+    } else {
+      _bookmarks.add(article);
+    }
+
+    notifyListeners();
+  }
+
   Future<void> fetchNews({
     String category = 'general',
     String country = 'us',

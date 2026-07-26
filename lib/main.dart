@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'screens/navigation/main_navigation.dart';
 import 'providers/news_provider.dart';
 import 'providers/theme_provider.dart';
-import 'screens/home/home_screen.dart';
+//import 'screens/home/home_screen.dart';
 
 void main() {
   runApp(const NewsReaderApp());

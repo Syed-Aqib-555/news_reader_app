@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
 
 import '../models/article.dart';
+import '../providers/news_provider.dart';
 import '../screens/details/article_detail_screen.dart';
 
 class ArticleCard extends StatelessWidget {
@@ -50,12 +52,35 @@ class ArticleCard extends StatelessWidget {
               ),
             Padding(
               padding: const EdgeInsets.all(12),
-              child: Text(
-                article.title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      article.title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  Consumer<NewsProvider>(
+                    builder: (context, provider, child) {
+                      return IconButton(
+                        icon: Icon(
+                          provider.isBookmarked(article)
+                              ? Icons.bookmark
+                              : Icons.bookmark_border,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {
+                          provider.toggleBookmark(article);
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
 
