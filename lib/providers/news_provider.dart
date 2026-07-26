@@ -14,13 +14,19 @@ class NewsProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String get error => _error;
 
-  Future<void> fetchNews({String category = 'general'}) async {
+  Future<void> fetchNews({
+    String category = 'general',
+    String country = 'us',
+  }) async {
     _isLoading = true;
     _error = '';
     notifyListeners();
 
     try {
-      _articles = await _service.fetchTopHeadlines(category: category);
+      _articles = await _service.fetchTopHeadlines(
+        category: category,
+        country: country,
+      );
     } catch (e) {
       _error = e.toString();
     }

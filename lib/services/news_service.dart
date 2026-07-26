@@ -6,10 +6,13 @@ import '../utils/constants.dart';
 
 class NewsService {
   // Replace this method
-  Future<List<Article>> fetchTopHeadlines({String category = 'general'}) async {
+  Future<List<Article>> fetchTopHeadlines({
+    String category = 'general',
+    String country = 'us',
+  }) async {
     final response = await http.get(
       Uri.parse(
-        '$baseUrl/top-headlines?country=us&category=$category&apiKey=$apiKey',
+        '$baseUrl/top-headlines?country=$country&category=$category&apiKey=$apiKey',
       ),
     );
 

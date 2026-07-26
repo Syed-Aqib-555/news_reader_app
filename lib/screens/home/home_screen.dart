@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/news_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../widgets/article_card.dart';
 import 'news_search_delegate.dart';
 
@@ -32,6 +33,18 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
 
         actions: [
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return IconButton(
+                icon: Icon(
+                  themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                ),
+                onPressed: () {
+                  themeProvider.toggleTheme();
+                },
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
@@ -40,22 +53,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           PopupMenuButton<String>(
+            icon: const Icon(Icons.public),
             onSelected: (value) {
               Provider.of<NewsProvider>(
                 context,
                 listen: false,
-              ).fetchNews(category: value);
+              ).fetchNews(country: value);
             },
             itemBuilder: (context) => const [
-              PopupMenuItem(value: "general", child: Text("General")),
-
-              PopupMenuItem(value: "technology", child: Text("Technology")),
-
-              PopupMenuItem(value: "business", child: Text("Business")),
-
-              PopupMenuItem(value: "sports", child: Text("Sports")),
-
-              PopupMenuItem(value: "health", child: Text("Health")),
+              PopupMenuItem(value: "us", child: Text("🇺🇸 United States")),
+              PopupMenuItem(value: "gb", child: Text("🇬🇧 United Kingdom")),
+              PopupMenuItem(value: "pk", child: Text("🇵🇰 Pakistan")),
+              PopupMenuItem(value: "in", child: Text("🇮🇳 India")),
+              PopupMenuItem(value: "ca", child: Text("🇨🇦 Canada")),
             ],
           ),
         ],
