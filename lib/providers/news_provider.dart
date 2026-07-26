@@ -4,7 +4,7 @@ import '../models/article.dart';
 import '../services/news_service.dart';
 
 class NewsProvider extends ChangeNotifier {
-  final NewsService _newsService = NewsService();
+  final NewsService _service = NewsService();
 
   List<Article> _articles = [];
   bool _isLoading = false;
@@ -20,7 +20,22 @@ class NewsProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _articles = await _newsService.fetchNews();
+      _articles = await _service.fetchTopHeadlines();
+    } catch (e) {
+      _error = e.toString();
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> search(String query) async {
+    _isLoading = true;
+    _error = '';
+    notifyListeners();
+
+    try {
+      _articles = await _service.searchNews(query);
     } catch (e) {
       _error = e.toString();
     }

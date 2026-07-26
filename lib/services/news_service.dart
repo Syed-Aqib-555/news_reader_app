@@ -1,26 +1,39 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
 import '../models/article.dart';
 import '../utils/constants.dart';
 
 class NewsService {
-  Future<List<Article>> fetchNews() async {
-    final Uri url = Uri.parse(
-      '$baseUrl/top-headlines?country=us&apiKey=$apiKey',
+  Future<List<Article>> fetchTopHeadlines() async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/top-headlines?country=us&apiKey=$apiKey'),
     );
 
-    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      return (data['articles'] as List)
+          .map((e) => Article.fromJson(e))
+          .toList();
+    }
+
+    throw Exception('Failed to load news');
+  }
+
+  Future<List<Article>> searchNews(String query) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/everything?q=$query&apiKey=$apiKey'),
+    );
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      final data = jsonDecode(response.body);
 
-      final List<dynamic> articles = jsonData['articles'];
-
-      return articles.map((article) => Article.fromJson(article)).toList();
-    } else {
-      throw Exception('Failed to load news');
+      return (data['articles'] as List)
+          .map((e) => Article.fromJson(e))
+          .toList();
     }
+
+    throw Exception('Failed to search news');
   }
 }

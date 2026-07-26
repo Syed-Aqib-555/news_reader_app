@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/news_provider.dart';
 import '../../widgets/article_card.dart';
+import 'news_search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,7 +27,19 @@ class _HomeScreenState extends State<HomeScreen> {
     final provider = Provider.of<NewsProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("News Reader"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("News Reader"),
+        centerTitle: true,
+
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: NewsSearchDelegate());
+            },
+          ),
+        ],
+      ),
 
       body: Builder(
         builder: (_) {
