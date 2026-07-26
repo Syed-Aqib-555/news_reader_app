@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/news_provider.dart';
+import 'providers/theme_provider.dart';
 import 'screens/home/home_screen.dart';
 
 void main() {
@@ -13,16 +14,32 @@ class NewsReaderApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => NewsProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'News Reader',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
-        home: const HomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NewsProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'News Reader',
+
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+              useMaterial3: true,
+            ),
+
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              useMaterial3: true,
+            ),
+
+            themeMode: themeProvider.themeMode,
+
+            home: const HomeScreen(),
+          );
+        },
       ),
     );
   }
