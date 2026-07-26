@@ -5,6 +5,7 @@ import '../../providers/news_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/article_card.dart';
 import 'news_search_delegate.dart';
+import '../settings/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -51,7 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
               showSearch(context: context, delegate: NewsSearchDelegate());
             },
           ),
-
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
+            },
+          ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.public),
             onSelected: (value) {
