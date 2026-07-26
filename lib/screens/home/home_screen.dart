@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../categories/categories_screen.dart';
 import '../../widgets/category_chips.dart';
 import '../../providers/news_provider.dart';
 import '../../providers/theme_provider.dart';
@@ -52,6 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(context: context, delegate: NewsSearchDelegate());
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.category),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CategoriesScreen()),
+              );
             },
           ),
           IconButton(
