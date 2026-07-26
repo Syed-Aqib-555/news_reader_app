@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../models/article.dart';
 
@@ -16,10 +17,22 @@ class ArticleDetailScreen extends StatelessWidget {
     }
   }
 
+  // 👇 Add this method here
+  void _shareArticle() {
+    SharePlus.instance.share(
+      ShareParams(text: '${article.title}\n\n${article.articleUrl}'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(article.source)),
+      appBar: AppBar(
+        title: Text(article.source),
+        actions: [
+          IconButton(icon: const Icon(Icons.share), onPressed: _shareArticle),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
