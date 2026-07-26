@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../home/home_screen.dart';
+import '../bookmarks/bookmarks_screen.dart';
 import '../settings/settings_screen.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -15,11 +16,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final List<Widget> screens = [
     const HomeScreen(),
-
-    const Center(
-      child: Text("Bookmarks Coming Soon", style: TextStyle(fontSize: 22)),
-    ),
-
+    const BookmarksScreen(),
     const SettingsScreen(),
   ];
 
