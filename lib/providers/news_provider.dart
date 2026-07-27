@@ -10,6 +10,8 @@ class NewsProvider extends ChangeNotifier {
   bool _isLoading = false;
   String _error = '';
 
+  DateTime? _lastUpdated;
+
   int _page = 1;
 
   int get page => _page;
@@ -17,6 +19,8 @@ class NewsProvider extends ChangeNotifier {
   List<Article> get articles => _articles;
   bool get isLoading => _isLoading;
   String get error => _error;
+
+  DateTime? get lastUpdated => _lastUpdated;
 
   final List<Article> _bookmarks = [];
 
@@ -49,6 +53,7 @@ class NewsProvider extends ChangeNotifier {
         category: category,
         country: country,
       );
+      _lastUpdated = DateTime.now();
     } catch (e) {
       _error = e.toString();
     }
@@ -85,6 +90,21 @@ class NewsProvider extends ChangeNotifier {
 
     try {
       _articles = await _service.searchNews(query);
+    } catch (e) {
+      _error = e.toString();
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchBySource(String source) async {
+    _isLoading = true;
+    _error = '';
+    notifyListeners();
+
+    try {
+      _articles = await _service.fetchBySource(source);
     } catch (e) {
       _error = e.toString();
     }

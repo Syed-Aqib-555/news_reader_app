@@ -44,4 +44,20 @@ class NewsService {
 
     throw Exception('Failed to search news');
   }
+
+  Future<List<Article>> fetchBySource(String source) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/top-headlines?sources=$source&apiKey=$apiKey'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      return (data['articles'] as List)
+          .map((e) => Article.fromJson(e))
+          .toList();
+    }
+
+    throw Exception("Failed to load source news");
+  }
 }

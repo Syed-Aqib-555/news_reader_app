@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:intl/intl.dart';
+import '../sources/source_screen.dart';
 import '../categories/categories_screen.dart';
 import '../../widgets/category_chips.dart';
 import '../../providers/news_provider.dart';
@@ -65,6 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           IconButton(
+            icon: const Icon(Icons.newspaper),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SourceScreen()),
+              );
+            },
+          ),
+
+          IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
@@ -114,7 +126,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   const CategoryChips(),
 
                   const SizedBox(height: 10),
-                  // Breaking News
+
+                  if (provider.lastUpdated != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        "Last Updated: ${DateFormat('MMM dd, yyyy • hh:mm a').format(provider.lastUpdated!)}",
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+
+                  const SizedBox(height: 10),
+
                   if (provider.articles.isNotEmpty)
                     BreakingNewsCard(article: provider.articles.first),
 
