@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'screens/navigation/main_navigation.dart';
 import 'providers/news_provider.dart';
 import 'providers/theme_provider.dart';
+import 'screens/splash/splash_screen.dart';
 //import 'screens/home/home_screen.dart';
 
 void main() {
@@ -16,7 +17,13 @@ class NewsReaderApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => NewsProvider()),
+        ChangeNotifierProvider(
+          create: (_) {
+            final provider = NewsProvider();
+            provider.loadBookmarks();
+            return provider;
+          },
+        ),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: Consumer<ThemeProvider>(
@@ -37,7 +44,7 @@ class NewsReaderApp extends StatelessWidget {
 
             themeMode: themeProvider.themeMode,
 
-            home: const MainNavigation(),
+            home: const SplashScreen(),
           );
         },
       ),

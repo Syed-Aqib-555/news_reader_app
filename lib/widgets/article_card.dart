@@ -74,8 +74,23 @@ class ArticleCard extends StatelessWidget {
                               : Icons.bookmark_border,
                           color: Colors.blue,
                         ),
-                        onPressed: () {
-                          provider.toggleBookmark(article);
+                        onPressed: () async {
+                          final wasBookmarked = provider.isBookmarked(article);
+
+                          await provider.toggleBookmark(article);
+
+                          if (!context.mounted) return;
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                wasBookmarked
+                                    ? "Removed from Bookmarks"
+                                    : "Added to Bookmarks",
+                              ),
+                              duration: const Duration(seconds: 2),
+                            ),
+                          );
                         },
                       );
                     },

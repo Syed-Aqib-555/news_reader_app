@@ -20,19 +20,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
 
     Future.microtask(() {
       Provider.of<NewsProvider>(context, listen: false).fetchNews();
-    });
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
-        Provider.of<NewsProvider>(context, listen: false).loadMore();
-      }
     });
   }
 
@@ -163,13 +156,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   ListView.builder(
-                    controller: _scrollController,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: provider.articles.length,
                     itemBuilder: (context, index) {
                       return ArticleCard(article: provider.articles[index]);
                     },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await provider.loadMore();
+                        },
+                        child: const Text("Load More"),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -178,11 +181,5 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
   }
 }

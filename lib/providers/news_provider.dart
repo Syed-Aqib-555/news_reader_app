@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../models/article.dart';
 import '../services/news_service.dart';
+import '../services/bookmark_service.dart';
 
 class NewsProvider extends ChangeNotifier {
   final NewsService _service = NewsService();
+  final BookmarkService _bookmarkService = BookmarkService();
 
   List<Article> _articles = [];
   bool _isLoading = false;
@@ -30,12 +32,14 @@ class NewsProvider extends ChangeNotifier {
     return _bookmarks.any((a) => a.articleUrl == article.articleUrl);
   }
 
-  void toggleBookmark(Article article) {
+  Future<void> toggleBookmark(Article article) async {
     if (isBookmarked(article)) {
       _bookmarks.removeWhere((a) => a.articleUrl == article.articleUrl);
     } else {
       _bookmarks.add(article);
     }
+
+    await _bookmarkService.saveBookmarks(_bookmarks);
 
     notifyListeners();
   }
@@ -110,6 +114,14 @@ class NewsProvider extends ChangeNotifier {
     }
 
     _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> loadBookmarks() async {
+    _bookmarks.clear();
+
+    _bookmarks.addAll(await _bookmarkService.loadBookmarks());
+
     notifyListeners();
   }
 }
