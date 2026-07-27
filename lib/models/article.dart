@@ -41,4 +41,14 @@ class Article extends HiveObject {
       publishedAt: json['publishedAt'] ?? '',
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'url': articleUrl,
+      'urlToImage': imageUrl,
+      'publishedAt': publishedAt,
+      'source': {'name': source},
+    };
+  }
 }
