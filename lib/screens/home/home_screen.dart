@@ -39,25 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
 
         actions: [
-          Consumer<ThemeProvider>(
-            builder: (context, themeProvider, child) {
-              return IconButton(
-                icon: Icon(
-                  themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                ),
-                onPressed: () {
-                  themeProvider.toggleTheme();
-                },
-              );
-            },
-          ),
           IconButton(
+            tooltip: "Search",
             icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(context: context, delegate: NewsSearchDelegate());
             },
           ),
+
           IconButton(
+            tooltip: "Categories",
             icon: const Icon(Icons.category),
             onPressed: () {
               Navigator.push(
@@ -66,7 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
+
           IconButton(
+            tooltip: "News Sources",
             icon: const Icon(Icons.newspaper),
             onPressed: () {
               Navigator.push(
@@ -76,16 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
 
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SettingsScreen()),
-              );
-            },
-          ),
           PopupMenuButton<String>(
+            tooltip: "Select Country",
             icon: const Icon(Icons.public),
             onSelected: (value) {
               Provider.of<NewsProvider>(
@@ -101,6 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
               PopupMenuItem(value: "ca", child: Text("🇨🇦 Canada")),
             ],
           ),
+
+          const SizedBox(width: 8),
         ],
       ),
 
